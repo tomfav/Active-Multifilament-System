@@ -1,9 +1,9 @@
-# AMS 3 Pro – 4-Spool Enclosed Multi-Filament System
+# Active Multifilament System 3 Pro – 4-Spool Enclosed Multi-Filament System
 
 A heated, dryable, auto-rewinding 4-spool filament system designed for Bambu Lab printers and driven by a **BMCU-C Hall** unit.
 
-<!-- TODO: add a hero photo of the finished build here -->
-<!-- ![AMS 3 Pro – finished build](images/hero.jpg) -->
+
+![AMS 3 Pro – finished build](images/hero.jpg)
 
 ## Features
 
@@ -29,14 +29,13 @@ Main changes from the original project to make it suit the Bambu Lab ecosystem:
 
 ---
 
-## Table of Contents
-
 1. [Bill of Materials](#bill-of-materials)
 2. [Tools](#tools)
 3. [Printing the Parts](#printing-the-parts)
 4. [Assembly Guide](#assembly-guide)
 5. [Sensor Wiring and Firmware](#sensor-wiring-and-firmware)
-6. [Test Results](#test-results)
+6. [Spoolman (Spool Weight Tracking)](#spoolman-spool-weight-tracking)
+7. [Test Results](#test-results)
 
 ---
 
@@ -93,7 +92,6 @@ The parts are too large for a 256 × 256 mm print bed, so they are **split into 
 - **Material:** ABS or ABS+ (tested), or ASA.
 - **Everything inside the enclosure must be heat-resistant**, including all the Filamentalist 3 parts.
 
-<!-- TODO: add a photo of the printed and glued parts -->
 
 ---
 
@@ -174,6 +172,8 @@ Before permanently closing the active-drying side:
 
 <!-- TODO: photo of gaskets and silicone -->
 
+![AMS 3 Pro – gaskets mounting](images/gaskets.jpg)
+
 ### Step 10 – Install the Filamentalist rewinders
 
 1. Assemble the Filamentalist modules and **check their tension**.
@@ -182,6 +182,7 @@ Before permanently closing the active-drying side:
 4. Fit the PTFE fitting and the PTFE tube.
 
 <!-- TODO: photo of the rewinders installed -->
+![AMS 3 Pro – rewinders installed](images/rewinder.jpg)
 
 ### Step 11 – Test
 
@@ -216,6 +217,16 @@ Connect the AHT20 to the BMCU as follows:
 
 Once working, temperature and humidity are visible from the slicer.
 
+### Spool order in the slicer (reversed firmware)
+
+It is more convenient to connect the BMCU spool channels **in reverse order**. To keep the slicer display natural, I made a custom BMCU firmware that **mirrors the slot order**, so the spools appear **from left to right in ascending order (1 → 4)** in the slicer.
+
+- Flash the custom firmware from the [`BMCU_firmware`](BMCU_firmware/) folder.
+- With this firmware, connect the spool channels in reverse order, as described in the assembly guide.
+
+> [!NOTE]
+> If you use the standard firmware instead, the slicer will show the spools in reverse order compared to their physical position.
+
 ---
 
 ## Test Results
@@ -234,6 +245,25 @@ Once working, temperature and humidity are visible from the slicer.
 
 ![Temperature (°C) over time](images/temperature-test.png)
 
+**view from the slicer**
+![slicer view](images/slicer_view.png)
+
+![slicer umidity](images/slicer_umidity_view.png)
+
+spoolman.png
+
 ---
 
+## Spoolman (Spool Weight Tracking)
+
+To get an up-to-date estimate of the remaining weight of each spool, I set up a **Spoolman** server.
+
+1. **Set up the server** by following the [Spoolman guide](https://github.com/Donkie/Spoolman).
+2. **Use Orca Slicer** (at least **v2.5.0-Alpha**). The Bambu Lab slicer does not support plugins, so it can't be used for this.
+3. **Install the [Orca Slicer plugin](https://cloud.orcaslicer.com/p/335694591ea6)** that updates the filament used during slicing.
+   - If it doesn't work, replace the plugin's Python file in `C:\Users\<User>\AppData\Roaming\OrcaSlicer\orca_plugins` with the fixed version provided here. [`Spoolman Plugin`](Spoolman_plugin/)
+4. In Orca Slicer, open the **Plugin** screen and enable Spoolman with the script **"Spoolman Settings e guide"**, then follow the on-screen guide.
+
+![spoolman](images/spoolman.png)
+---
 <!-- TODO: add a License section -->
