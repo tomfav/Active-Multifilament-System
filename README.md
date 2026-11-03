@@ -1,9 +1,9 @@
-# Active Multifilament System 3 Pro – 4-Spool Enclosed Multi-Filament System
+# Active Multifilament System (AMS 3 Pro)
 
-A heated, dryable, auto-rewinding 4-spool filament system designed for Bambu Lab printers and driven by a **BMCU-C Hall** unit.
-
+A heated, dryable, auto-rewinding **4-spool filament system** for Bambu Lab printers, driven by a **BMCU-C Hall** unit.
 
 ![AMS 3 Pro – finished build](images/hero.jpg)
+
 
 ## Features
 
@@ -13,6 +13,10 @@ A heated, dryable, auto-rewinding 4-spool filament system designed for Bambu Lab
 - Compatible with the **BMCU-C Hall** version
 - Built-in temperature and humidity sensor (AHT20), readable from the slicer
 - Multicolor printing with up to **4 spools**
+- Spool weight estimation via **Spoolman**
+
+> [!WARNING]
+> The system has **not been tested** with flexible filaments or TPU.
 
 ## Credits
 
@@ -24,18 +28,32 @@ Main changes from the original project to make it suit the Bambu Lab ecosystem:
 - Uses the [Filamentalist FV3 rewinder](https://github.com/Carrot-collective/ERCF_v2/tree/master/Recommended_Options/Filamentalist_Rewinder/Filamentalist_FV3_Rewinder), with improvements
 - Structure fully 3D-printed in ABS, except for the polycarbonate lid panel
 
-> [!WARNING]
-> The system has **not been tested** with flexible filaments or TPU.
+---
+
+## Table of Contents
+
+1. [Repository Contents](#repository-contents)
+2. [Bill of Materials](#bill-of-materials)
+3. [Tools](#tools)
+4. [Printing the Parts](#printing-the-parts)
+5. [Assembly Guide](#assembly-guide)
+6. [Sensor Wiring and Firmware](#sensor-wiring-and-firmware)
+7. [Spoolman (Spool Weight Tracking)](#spoolman-spool-weight-tracking)
+8. [Test Results](#test-results)
+9. [Known Issues and Support](#known-issues-and-support)
+10. [License](#license)
 
 ---
 
-1. [Bill of Materials](#bill-of-materials)
-2. [Tools](#tools)
-3. [Printing the Parts](#printing-the-parts)
-4. [Assembly Guide](#assembly-guide)
-5. [Sensor Wiring and Firmware](#sensor-wiring-and-firmware)
-6. [Spoolman (Spool Weight Tracking)](#spoolman-spool-weight-tracking)
-7. [Test Results](#test-results)
+## Repository Contents
+
+| Folder | What's inside |
+|--------|---------------|
+| [`3D parts/3mf`](3D%20parts/3mf) | Ready-to-print projects: `…_Bambu.3mf` for **Bambu Studio**, `…_Orca.3mf` for **Orca Slicer**, and `2020_filamentalist.3mf` with the **rewinder mounting arms** |
+| [`3D parts/CAD models`](3D%20parts/CAD%20models) | Editable CAD: `.step` (universal) and `.f3z` (Fusion) |
+| [`BMCU_firmware`](BMCU_firmware) | Custom BMCU firmware builds (see [Sensor Wiring and Firmware](#sensor-wiring-and-firmware)) |
+| [`Spoolman_plugin`](Spoolman_plugin) | Orca Slicer plugin script for Spoolman |
+| [`images`](images) | Pictures used in this guide |
 
 ---
 
@@ -76,6 +94,7 @@ Items marked **(optional)** can be skipped.
 | 200 g | Silica gel | Passive drying |
 | 1 | White acrylic | Only if you don't already have an AMS – used for the labels |
 
+
 ## Tools
 
 - Hacksaw
@@ -87,11 +106,13 @@ Items marked **(optional)** can be skipped.
 
 ## Printing the Parts
 
-The parts are too large for a 256 × 256 mm print bed, so they are **split into pieces that you glue together after printing**.
+Start from the ready-made project files in [`3D parts/3mf`](3D%20parts/3mf) (Bambu Studio or Orca Slicer version). The parts are too large for a 256 × 256 mm print bed, so they are **split into pieces that you glue together after printing**.
 
 - **Material:** ABS or ABS+ (tested), or ASA.
 - **Everything inside the enclosure must be heat-resistant**, including all the Filamentalist 3 parts.
 
+> [!IMPORTANT]
+> Don't forget to also print the **mounting arms** that hold the Filamentalist FV3 rewinders on the 2020 frame. They are in a separate file: [`2020_Filamentalist.3mf`](3D%20parts/3mf/2020_Filamentalist.3mf). You need **16 arms**, four per rewinder. They must be printed in a heat-resistant material too.
 
 ---
 
@@ -103,7 +124,6 @@ The parts are too large for a 256 × 256 mm print bed, so they are **split into 
 2. Thread **both ends** of all six 2020 extrusions with the M6 tap.
 3. Cut the polycarbonate panel to **449 × 398 mm** with the hacksaw.
 
-<!-- TODO: photo of threaded extrusions and printed parts -->
 
 ### Step 2 – Assemble the main structure
 
@@ -113,7 +133,6 @@ The parts are too large for a 256 × 256 mm print bed, so they are **split into 
 4. Insert the 3D-printed bolts for the hinges at the back.
 5. Close the base structure with **8 × M6 screws**.
 
-<!-- TODO: photo of the assembled frame -->
 
 ### Step 3 – Fit the polycarbonate lid panel
 
@@ -124,7 +143,6 @@ The parts are too large for a 256 × 256 mm print bed, so they are **split into 
 2. The other slides the panel into the rail of the structure until it reaches the extrusion you mounted earlier.
 3. Insert the last extrusion and secure it with the final **4 × M6 screws**.
 
-<!-- TODO: photo of the panel being inserted -->
 
 ### Step 4 – Dismantle the EIBOS Cyclopes dryer
 
@@ -132,7 +150,6 @@ The parts are too large for a 256 × 256 mm print bed, so they are **split into 
 2. Unscrew the fan with its heatsink – these will be reused on the enclosure.
 3. Remove the display (it is held by a snap fit).
 
-<!-- TODO: photo of the dryer taken apart -->
 
 ### Step 5 – Mount the active drying unit
 
@@ -140,7 +157,6 @@ The parts are too large for a 256 × 256 mm print bed, so they are **split into 
 2. Snap the display into place.
 3. Insert the dryer's temperature probe into the **upper extrusion**.
 
-<!-- TODO: photo of the mounted dryer module -->
 
 ### Step 6 – Power cable and LED strip
 
@@ -156,7 +172,6 @@ Before permanently closing the active-drying side:
 3. To pass the cable connector through the slot, cut it off, feed the cable through, then **solder it back**.
 4. Wire it to the BMCU as described in [Sensor Wiring and Firmware](#sensor-wiring-and-firmware).
 
-<!-- TODO: photo of the sensor mounted -->
 
 ### Step 8 – Silica gel container
 
@@ -170,9 +185,7 @@ Before permanently closing the active-drying side:
 2. Apply silicone on the curved walls.
 3. Also apply silicone around the humidity sensor slot.
 
-<!-- TODO: photo of gaskets and silicone -->
-
-![AMS 3 Pro – gaskets mounting](images/gaskets.jpg)
+![Gaskets mounted](images/gaskets.jpg)
 
 ### Step 10 – Install the Filamentalist rewinders
 
@@ -181,8 +194,7 @@ Before permanently closing the active-drying side:
 3. Insert all **4 rewinders** and align each with its PTFE hole.
 4. Fit the PTFE fitting and the PTFE tube.
 
-<!-- TODO: photo of the rewinders installed -->
-![AMS 3 Pro – rewinders installed](images/rewinder.jpg)
+![Rewinders installed](images/rewinder.jpg)
 
 ### Step 11 – Test
 
@@ -195,11 +207,12 @@ Before permanently closing the active-drying side:
 2. Use the **2 × cut M5 screws** as the pivot pins the lid rotates around.
 3. Tighten the M5×10 screws into the bolts previously inserted in the extrusions.
 
-<!-- TODO: photo of the finished build with the lid closed -->
 
 ---
 
 ## Sensor Wiring and Firmware
+
+### AHT20 wiring
 
 Connect the AHT20 to the BMCU as follows:
 
@@ -210,22 +223,50 @@ Connect the AHT20 to the BMCU as follows:
 | SDA | E_TX |
 | SCL | E_RX |
 
-**Firmware:** you must flash a firmware that supports the sensor – [BMCU-C-PJARCZAK v4.0.0-tpu](https://github.com/DZRAB/BMCU-C-PJARCZAK/releases/tag/v4.0.0-tpu).
-
 > [!NOTE]
 > If the sensor is wired correctly, the BMCU LED **flashes white rapidly** at power-on. If it doesn't, you have most likely swapped **SDA and SCL**.
 
-Once working, temperature and humidity are visible from the slicer.
+### Firmware
+
+The BMCU needs a firmware that supports the sensor. Firmware builds are in the [`BMCU_firmware`](BMCU_firmware) folder; they are based on [BMCU-C-PJARCZAK](https://github.com/DZRAB/BMCU-C-PJARCZAK/releases/tag/v4.0.0-tpu).
+
+> [!IMPORTANT]
+> There are several variants (printer model, load behaviour, RGB, etc.). For details on **which one to choose**, refer to the original [BMCU-C-PJARCZAK repository](https://github.com/DZRAB/BMCU-C-PJARCZAK).
 
 ### Spool order in the slicer (reversed firmware)
 
 It is more convenient to connect the BMCU spool channels **in reverse order**. To keep the slicer display natural, I made a custom BMCU firmware that **mirrors the slot order**, so the spools appear **from left to right in ascending order (1 → 4)** in the slicer.
 
-- Flash the custom firmware from the [`BMCU_firmware`](BMCU_firmware/) folder.
-- With this firmware, connect the spool channels in reverse order, as described in the assembly guide.
+- Use the custom firmware from the [`BMCU_firmware`](BMCU_firmware) folder.
+- With this firmware, connect the spool channels in reverse order
 
 > [!NOTE]
-> If you use the standard firmware instead, the slicer will show the spools in reverse order compared to their physical position.
+> With the standard firmware, the slicer will show the spools in reverse order compared to their physical position.
+
+### Temperature and humidity in the slicer
+
+Once the sensor is connected, temperature and humidity are shown directly in the slicer (the dryer itself **cannot** be controlled from there).
+
+![AMS view in the slicer, with humidity indicator](images/slicer_view.png)
+
+![Current AMS humidity pop-up in the slicer](images/slicer_umidity_view.png)
+
+---
+
+## Spoolman (Spool Weight Tracking)
+
+To get an up-to-date estimate of the remaining weight of each spool, I set up a **Spoolman** server.
+
+1. **Set up the server** by following the [Spoolman guide](https://github.com/Donkie/Spoolman).
+2. **Use Orca Slicer** (at least **v2.5.0-Alpha**). The Bambu Lab slicer does not support plugins, so it can't be used for this.
+3. **Install the [Orca Slicer plugin](https://cloud.orcaslicer.com/p/335694591ea6)** that updates the filament used during slicing.
+4. **If it doesn't work**, replace the plugin's Python file with the one in this repo ([`Spoolman_plugin`](Spoolman_plugin)). Copy it into:
+   ```
+   C:\Users\<User>\AppData\Roaming\OrcaSlicer\orca_plugins
+   ```
+5. In Orca Slicer, open the **Plugin** screen and enable Spoolman with the script **"Spoolman Settings e guide"**, then follow the on-screen guide.
+
+![Spoolman in Orca Slicer](images/spoolman.png)
 
 ---
 
@@ -245,25 +286,13 @@ It is more convenient to connect the BMCU spool channels **in reverse order**. T
 
 ![Temperature (°C) over time](images/temperature-test.png)
 
-**view from the slicer**
-![slicer view](images/slicer_view.png)
-
-![slicer umidity](images/slicer_umidity_view.png)
-
-spoolman.png
-
 ---
 
-## Spoolman (Spool Weight Tracking)
+## Known Issues and Support
 
-To get an up-to-date estimate of the remaining weight of each spool, I set up a **Spoolman** server.
+- Not tested with flexible filaments / TPU.
+- Humidity inside the enclosure rises over time if drafts get in – seal all gaps carefully.
+- <!-- TODO: add other known issues or planned improvements -->
 
-1. **Set up the server** by following the [Spoolman guide](https://github.com/Donkie/Spoolman).
-2. **Use Orca Slicer** (at least **v2.5.0-Alpha**). The Bambu Lab slicer does not support plugins, so it can't be used for this.
-3. **Install the [Orca Slicer plugin](https://cloud.orcaslicer.com/p/335694591ea6)** that updates the filament used during slicing.
-   - If it doesn't work, replace the plugin's Python file in `C:\Users\<User>\AppData\Roaming\OrcaSlicer\orca_plugins` with the fixed version provided here. [`Spoolman Plugin`](Spoolman_plugin/)
-4. In Orca Slicer, open the **Plugin** screen and enable Spoolman with the script **"Spoolman Settings e guide"**, then follow the on-screen guide.
+Found a problem or have a question? Please open an [Issue](../../issues).
 
-![spoolman](images/spoolman.png)
----
-<!-- TODO: add a License section -->
