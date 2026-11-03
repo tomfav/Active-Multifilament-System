@@ -292,7 +292,6 @@ To get an up-to-date estimate of the remaining weight of each spool, I set up a 
 
 - Not tested with flexible filaments / TPU.
 - Humidity inside the enclosure rises over time if drafts get in – seal all gaps carefully.
-- <!-- TODO: add other known issues or planned improvements -->
 
 Found a problem or have a question? Please open an [Issue](../../issues).
 
